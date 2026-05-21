@@ -5,7 +5,10 @@ interface CreateTaskFormProps {
   disabled?: boolean;
 }
 
-export default function CreateTaskForm({ onCreate, disabled = false }: CreateTaskFormProps) {
+export default function CreateTaskForm({
+  onCreate,
+  disabled = false,
+}: CreateTaskFormProps) {
   const [novaTarefa, setNovaTarefa] = useState<string>("");
 
   const handleCreate = () => {
