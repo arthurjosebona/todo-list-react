@@ -5,8 +5,6 @@ export const STATUS_LABELS: string[] = [
   "Em Execução",
   "Concluídas",
 ];
-export const STATUS_ICONS: string[] = ["⏳", "⚙️", "✅"];
-export const STATUS_COLORS: string[] = ["#EF9F27", "#378ADD", "#1D9E75"];
 
 export function getStatusValue(tarefa: Tarefa): StatusValue {
   if (typeof tarefa.status === "number") return tarefa.status as StatusValue;

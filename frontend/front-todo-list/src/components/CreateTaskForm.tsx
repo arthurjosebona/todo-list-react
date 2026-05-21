@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent } from "react";
+import React, { useState, KeyboardEvent } from "react";
 
 interface CreateTaskFormProps {
   onCreate: (titulo: string) => void;
@@ -10,6 +10,7 @@ export default function CreateTaskForm({
   disabled = false,
 }: CreateTaskFormProps) {
   const [novaTarefa, setNovaTarefa] = useState<string>("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleCreate = () => {
     const titulo = novaTarefa.trim();
@@ -22,61 +23,50 @@ export default function CreateTaskForm({
     if (e.key === "Enter") handleCreate();
   };
 
+  const isActive = novaTarefa.trim().length > 0 && !disabled;
+
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: 8,
-        maxWidth: 520,
-        margin: "0 auto 2rem",
-      }}
-    >
-      <input
-        value={novaTarefa}
-        onChange={(e) => setNovaTarefa(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Nova tarefa..."
-        disabled={disabled}
-        style={{
-          flex: 1,
-          height: 40,
-          padding: "0 14px",
-          borderRadius: 8,
-          border: "1px solid #2d4a6a",
-          background: "#162032",
-          color: "#d0e4f7",
-          fontSize: 14,
-          outline: "none",
-          opacity: disabled ? 0.5 : 1,
-          cursor: disabled ? "not-allowed" : "text",
-          transition: "border-color 0.2s",
-        }}
-        onFocus={(e) => {
-          if (!disabled) e.currentTarget.style.borderColor = "#378ADD";
-        }}
-        onBlur={(e) => {
-          e.currentTarget.style.borderColor = "#2d4a6a";
-        }}
-      />
-      <button
-        onClick={handleCreate}
-        disabled={disabled || !novaTarefa.trim()}
-        style={{
-          height: 40,
-          padding: "0 18px",
-          borderRadius: 8,
-          fontSize: 14,
-          cursor: disabled || !novaTarefa.trim() ? "not-allowed" : "pointer",
-          background: "#378ADD",
-          color: "#fff",
-          border: "1px solid #185FA5",
-          opacity: disabled || !novaTarefa.trim() ? 0.5 : 1,
-          transition: "opacity 0.2s",
-          fontWeight: 500,
-        }}
+    <div className="w-full max-w-2xl mt-8">
+      <div
+        className={`flex gap-3 transition-all duration-300 ${
+          isFocused ? "opacity-100" : "opacity-80"
+        }`}
       >
-        + Criar
-      </button>
+        {/* Input Field */}
+        <input
+          value={novaTarefa}
+          onChange={(e) => setNovaTarefa(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholder="Nova tarefa..."
+          disabled={disabled}
+          className={`flex-1 px-5 py-3 rounded-lg text-slate-100 placeholder-slate-500 font-medium transition-all duration-200 focus:outline-none ${
+            disabled
+              ? "bg-slate-800/30 border border-slate-700/30 text-slate-400 cursor-not-allowed"
+              : "bg-slate-800/50 border border-slate-600/40 focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20"
+          }`}
+        />
+
+        {/* Create Button */}
+        <button
+          onClick={handleCreate}
+          disabled={!isActive}
+          className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 whitespace-nowrap text-sm ${
+            isActive
+              ? "bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white hover:shadow-lg hover:shadow-purple-500/30 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              : "bg-slate-700/50 text-slate-500 cursor-not-allowed"
+          }`}
+        >
+          Criar
+        </button>
+      </div>
+
+      {disabled && (
+        <p className="transition-all hover:scale-101 hover:backdrop-opacity-100 hover:text-amber-400 mt-2 text-xs text-amber-400/70 font-medium">
+          ⚠️ Conecte ao backend primeiro
+        </p>
+      )}
     </div>
   );
 }

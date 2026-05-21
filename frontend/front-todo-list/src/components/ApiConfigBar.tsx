@@ -14,57 +14,35 @@ export default function ApiConfigBar({
   online,
 }: ApiConfigBarProps) {
   return (
-    <div style={styles.wrapper}>
-      <input
-        value={baseUrl}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="http://localhost:8080"
-        style={styles.input}
-      />
-      <button onClick={onConnect} style={styles.btn}>
-        🔄 Conectar
-      </button>
-      <span
-        title={online ? "Conectado" : "Offline"}
-        style={{ ...styles.dot, background: online ? "#1D9E75" : "#888" }}
-      />
+    <div className="w-full max-w-2xl px-6 py-4 bg-linear-to-r from-slate-800 via-slate-700 to-slate-800 rounded-xl shadow-2xl border border-slate-600/50 backdrop-blur-sm">
+      <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-2">
+          <div
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              online
+                ? "bg-emerald-400 shadow-lg shadow-emerald-400/50"
+                : "bg-red-400/60"
+            }`}
+          />
+          <span className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+            {online ? "Online" : "Offline"}
+          </span>
+        </div>
+
+        <input
+          value={baseUrl}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="http://localhost:8080"
+          className="text-gray-400 focus:text-white flex-1 px-4 py-2 bg-slate-900/50 border border-slate-600/30 rounded-lg placeholder-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-200 text-sm font-mono"
+        />
+
+        <button
+          onClick={onConnect}
+          className="px-4 py-2 bg-linear-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5 active:translate-y-0 text-sm whitespace-nowrap"
+        >
+          Conectar
+        </button>
+      </div>
     </div>
   );
 }
-
-const styles: Record<string, CSSProperties> = {
-  wrapper: {
-    display: "flex",
-    gap: 8,
-    maxWidth: 520,
-    margin: "0 auto 1.25rem",
-    alignItems: "center",
-  },
-  input: {
-    flex: 1,
-    height: 36,
-    padding: "0 12px",
-    borderRadius: 8,
-    border: "1px solid #2d4a6a",
-    background: "#162032",
-    color: "#d0e4f7",
-    fontSize: 13,
-    outline: "none",
-  },
-  btn: {
-    height: 36,
-    padding: "0 14px",
-    borderRadius: 8,
-    fontSize: 13,
-    cursor: "pointer",
-    background: "#378ADD",
-    color: "#fff",
-    border: "1px solid #185FA5",
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: "50%",
-    flexShrink: 0,
-  },
-};
