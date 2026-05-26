@@ -9,7 +9,7 @@ export async function fetchTarefas(baseUrl: string): Promise<Tarefa[]> {
 
   const res = await fetch(getApiUrl(baseUrl));
   if (!res.ok) throw new Error("HTTP " + res.status);
-  const data : Tarefa[] = await res.json();
+  const data: Tarefa[] = await res.json();
   console.log("Definindo tarefas no cache: ", data);
   CacheService.setTarefasCache(data);
   return data;
@@ -47,12 +47,14 @@ export async function forwardTarefa(
     method: "PATCH",
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
-  const updated : Tarefa = await res.json();
+  const updated: Tarefa = await res.json();
 
   const cached = CacheService.getTarefasFromCache();
 
   if (cached !== null) {
-    CacheService.setTarefasCache(cached.map(t => t.id === id ? updated : t));
+    CacheService.setTarefasCache(
+      cached.map((t) => (t.id === id ? updated : t)),
+    );
   }
 
   return updated;
@@ -66,12 +68,14 @@ export async function rewindTarefa(
     method: "PATCH",
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
-  const updated : Tarefa = await res.json();
+  const updated: Tarefa = await res.json();
 
   const cached = CacheService.getTarefasFromCache();
 
   if (cached !== null) {
-    CacheService.setTarefasCache(cached.map(t => t.id === id ? updated : t));
+    CacheService.setTarefasCache(
+      cached.map((t) => (t.id === id ? updated : t)),
+    );
   }
 
   return updated;
@@ -83,6 +87,6 @@ export async function deleteTarefa(baseUrl: string, id: number): Promise<void> {
 
   const cached = CacheService.getTarefasFromCache();
   if (cached !== null) {
-    CacheService.setTarefasCache(cached.filter(t => t.id !== id)); // remove o item
+    CacheService.setTarefasCache(cached.filter((t) => t.id !== id)); // remove o item
   }
 }

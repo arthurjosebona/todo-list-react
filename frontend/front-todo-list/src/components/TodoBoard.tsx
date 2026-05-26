@@ -8,8 +8,17 @@ import ApiConfigBar from "./ApiConfigBar";
 export default function TodoBoard() {
   const [baseUrl, setBaseUrl] = useState<string>("http://localhost:8080");
 
-  const { tarefas, loading, online, load, loadCache, create, forward, rewind, remove } =
-    useTarefas(baseUrl);
+  const {
+    tarefas,
+    loading,
+    online,
+    load,
+    loadCache,
+    create,
+    forward,
+    rewind,
+    remove,
+  } = useTarefas(baseUrl);
 
   useEffect(() => {
     loadCache();

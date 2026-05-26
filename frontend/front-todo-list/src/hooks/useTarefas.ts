@@ -72,5 +72,15 @@ export function useTarefas(baseUrl: string): UseTarefasReturn {
     [baseUrl],
   );
 
-  return { tarefas, loading, online, load, loadCache, create, forward, rewind, remove };
+  return {
+    tarefas,
+    loading,
+    online,
+    load,
+    loadCache,
+    create,
+    forward,
+    rewind,
+    remove,
+  };
 }

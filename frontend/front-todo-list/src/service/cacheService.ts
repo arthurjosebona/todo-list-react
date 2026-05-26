@@ -30,7 +30,7 @@ export class CacheService {
       localStorage.setItem("tarefas_cache", JSON.stringify(cacheData));
       localStorage.setItem(
         "tarefas_cache_expiry",
-        (Date.now() + 10000).toString()
+        (Date.now() + 10000).toString(),
       );
     } catch (e) {
       console.error("Erro ao salvar cache:", e);
