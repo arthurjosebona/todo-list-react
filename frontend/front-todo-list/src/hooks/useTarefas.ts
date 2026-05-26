@@ -7,6 +7,7 @@ interface UseTarefasReturn {
   loading: boolean;
   online: boolean;
   load: () => Promise<void>;
+  loadCache: () => void;
   create: (titulo: string) => Promise<void>;
   forward: (id: number) => Promise<void>;
   rewind: (id: number) => Promise<void>;
@@ -31,6 +32,13 @@ export function useTarefas(baseUrl: string): UseTarefasReturn {
       setLoading(false);
     }
   }, [baseUrl]);
+
+  const loadCache = useCallback(async (): Promise<void> => {
+    const cached = tarefaService.fetchFromCacheOnly();
+    if (cached !== null) {
+      setTarefas(cached);
+    }
+  }, []);
 
   const create = useCallback(
     async (titulo: string): Promise<void> => {
@@ -64,5 +72,5 @@ export function useTarefas(baseUrl: string): UseTarefasReturn {
     [baseUrl],
   );
 
-  return { tarefas, loading, online, load, create, forward, rewind, remove };
+  return { tarefas, loading, online, load, loadCache, create, forward, rewind, remove };
 }

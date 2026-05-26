@@ -6,6 +6,7 @@ import TaskCard from "./TaskCard";
 interface TaskListProps {
   index: 0 | 1 | 2;
   tarefas: Tarefa[];
+  online: boolean;
   onForward: (id: number) => void;
   onRewind: (id: number) => void;
   onDelete: (id: number) => void;
@@ -35,6 +36,7 @@ const columnColors = {
 export default function TaskList({
   index,
   tarefas,
+  online,
   onForward,
   onRewind,
   onDelete,
@@ -72,6 +74,7 @@ export default function TaskList({
             <TaskCard
               key={t.id}
               tarefa={t}
+              online={online}
               onForward={onForward}
               onRewind={onRewind}
               onDelete={onDelete}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTarefas } from "../hooks/useTarefas";
 import { groupByStatus } from "../utils/statusUtils";
 import KanbanColumn from "./TaskList";
@@ -8,8 +8,12 @@ import ApiConfigBar from "./ApiConfigBar";
 export default function TodoBoard() {
   const [baseUrl, setBaseUrl] = useState<string>("http://localhost:8080");
 
-  const { tarefas, loading, online, load, create, forward, rewind, remove } =
+  const { tarefas, loading, online, load, loadCache, create, forward, rewind, remove } =
     useTarefas(baseUrl);
+
+  useEffect(() => {
+    loadCache();
+  }, []);
 
   const handleConnect = async (): Promise<void> => {
     try {
@@ -102,7 +106,7 @@ export default function TodoBoard() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 auto-rows-max">
+            <div className="grid grid-cols-1 lx:grid-cols-3 gap-6 auto-rows-max">
               {columns.map((grupo, idx) => (
                 <div
                   key={idx}
@@ -114,6 +118,7 @@ export default function TodoBoard() {
                   <KanbanColumn
                     index={idx as 0 | 1 | 2}
                     tarefas={grupo}
+                    online={online}
                     onForward={handleForward}
                     onRewind={handleRewind}
                     onDelete={handleDelete}

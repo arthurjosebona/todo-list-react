@@ -4,6 +4,7 @@ import { getStatusValue } from "../utils/statusUtils";
 
 interface TarefaCardProps {
   tarefa: Tarefa;
+  online: boolean;
   onForward: (id: number) => void;
   onRewind: (id: number) => void;
   onDelete: (id: number) => void;
@@ -11,6 +12,7 @@ interface TarefaCardProps {
 
 export default function TarefaCard({
   tarefa,
+  online,
   onForward,
   onRewind,
   onDelete,
@@ -47,6 +49,7 @@ export default function TarefaCard({
           {sv > 0 && (
             <button
               onClick={() => onRewind(tarefa.id)}
+              disabled={!online}
               className="flex-1 px-3 py-2 text-xs font-semibold bg-slate-700/60 hover:bg-slate-600 text-slate-200 rounded transition-all duration-200 hover:shadow-md active:scale-95"
               title="Voltar para status anterior"
             >
@@ -56,6 +59,7 @@ export default function TarefaCard({
           {sv < 2 && (
             <button
               onClick={() => onForward(tarefa.id)}
+              disabled={!online}
               className="flex-1 px-3 py-2 text-xs font-semibold bg-cyan-600/70 hover:bg-cyan-500 text-white rounded transition-all duration-200 hover:shadow-md hover:shadow-cyan-500/30 active:scale-95"
               title="Avançar para próximo status"
             >
@@ -67,6 +71,7 @@ export default function TarefaCard({
         {/* Delete Button */}
         <button
           onClick={() => onDelete(tarefa.id)}
+          disabled={!online}
           className="px-3 py-2 text-xs font-semibold bg-red-500/20 hover:bg-red-500/40 text-red-300 hover:text-red-100 rounded transition-all duration-200 hover:shadow-md hover:shadow-red-500/20 active:scale-95"
           title="Excluir tarefa"
         >
